@@ -1,0 +1,11 @@
+# TODO: the menu service, version 1.0.0, ready to be updated in place.
+#   - a Deployment `menu` (namespace beanie-deploy), 4 replicas, the image from .image, args ["menu"], port 8001
+#   - env APP_VERSION: "1.0.0"   (the same image reports this value at /healthz: it is how you tell versions apart)
+#   - a readiness probe on /readyz and a liveness probe on /healthz, small resource requests (cpu 20m, memory 48Mi)
+#   - strategy: RollingUpdate with maxSurge 1 and maxUnavailable 0
+#   - a Service `menu` on port 8001
+# Release version 2.0.0 by changing APP_VERSION ("kubectl set env deployment/menu APP_VERSION=2.0.0") and watch the rollout.
+#
+# FIRST release it as described and run the probe (see the lab): even so, a few requests may fail. If they do, find out why
+# before you change anything: what happens between "the pod is told to stop" and "every node has stopped sending it traffic"?
+# The fix goes in the pod template (hint: lifecycle.preStop and terminationGracePeriodSeconds).

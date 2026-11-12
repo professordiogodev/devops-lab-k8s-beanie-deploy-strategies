@@ -22,17 +22,19 @@
 
 ## 🎬 The situation
 
-<p align="center"><img src="assets/gifs/situation.gif" width="300" alt="Animation: kubectl patch service menu"></p>
+<p align="center"><img src="assets/gifs/situation.gif" width="300" alt="Traffic shifting from the old version to the new one"></p>
 
-Menu 2.0.0 is built, tested, and approved. The lunch rush starts in an hour. Last time somebody ran `kubectl apply` on a new version, the old pods died before the new ones were ready, the cafe's app showed an error for forty seconds, and the owner called the CEO.
+Menu 2.0.0 is built, tested and approved. The lunch rush starts in an hour. Last time somebody ran `kubectl apply` on a new version, the old pods died before the new ones were ready, the app showed an error for forty seconds, and the owner called the CEO.
 
-There is no single "right" way to release. There are three common ones, and each protects you from a different mistake:
+There is no single right way to release. Pick your road, or take all three, because each one protects you from a different mistake:
 
-- **Rolling update**: replace the pods a few at a time. Cheap, built into Kubernetes, protects you from *downtime*.
-- **Blue/green**: run the new version next to the old, all of it, and flip a switch. Protects you from *a slow or risky cutover* and gives you an instant way back.
-- **Canary**: give the new version to a small share of real traffic first. Protects you from *a bug that only appears in production*.
+| Road | How | What it protects you from |
+|------|-----|---------------------------|
+| **Rolling update** | replace the pods a few at a time | *downtime*. Cheap, built into Kubernetes |
+| **Blue/green** | run the new version next to the old one, flip a switch | *a risky cutover*, with an instant way back |
+| **Canary** | give the new version a small share of real traffic first | *a bug that only appears in production* |
 
-You will do all three on the same service, with a checker that sends **steady traffic from inside the cluster** while you release, and counts every dropped request and every version it sees. Each strategy has a number to hit.
+A checker sends **steady traffic from inside the cluster** while you release, and counts every dropped request and every version it sees. Each road has a number to hit.
 
 > [!IMPORTANT]
 > **Your mission**

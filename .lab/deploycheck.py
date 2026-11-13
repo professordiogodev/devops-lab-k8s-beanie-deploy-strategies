@@ -108,6 +108,7 @@ if rc == 0:
     check("the client saw both versions while it ran: %s" % r["versions"], {"1.0.0", "2.0.0"} <= set(r["versions"]))
     k("rollout", "undo", "deployment/menu", "-n", NS)
     k("rollout", "status", "deployment/menu", "-n", NS, "--timeout=120s", timeout=140)
+    time.sleep(5)  # the last 2.0.0 pod is still terminating and the network needs a moment to stop sending it requests
     r = probe(8, 6)
     check("rollout undo brought version 1.0.0 back, with no failures: %s" % r["versions"], set(r["versions"]) == {"1.0.0"} and r["failures"] == 0)
 clean()
